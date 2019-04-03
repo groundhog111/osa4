@@ -1,23 +1,26 @@
-const config = require('./utils/config')
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const cors = require('cors')
 const mongoose = require('mongoose')
+const cors = require('cors')
+// eslint-disable-next-line import/no-extraneous-dependencies
+const bodyParser = require('body-parser')
+const express = require('express')
+const config = require('./utils/config')
+
+const app = express()
 const blogsRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
+const logger = require('./utils/logger')
 
-console.log("connecting to MongoDB")
+logger.info('connecting to MongoDB')
 const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl, { useNewUrlParser: true })
   .then(() => {
-    console.log('connected to MongoDB')
+    logger.info('connected to MongoDB')
   })
   .catch((error) => {
-    console.log('error connection to MongoDB:', error.message)
-})
+    logger.info('error connection to MongoDB:', error.message)
+  })
 
-//kun frontti käyttöön
+// kun frontti käyttöön
 // app.use(express.static('build'))
 
 app.use(cors())
