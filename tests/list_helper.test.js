@@ -95,7 +95,9 @@ describe('total Likes', () => {
 
 //   test.only('normaalitoiminta', () => {
 //     const result = listHelper.mostBlogs(blogs)
-//     expect(result).toBe("Robert C. Martin")
+//     console.log('result', result)
+//     expect(result.author).toBe("Robert C. Martin")
+//     expect(result.blogs).toBe(3)
 //   })
 
 // })

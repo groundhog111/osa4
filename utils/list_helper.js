@@ -1,5 +1,3 @@
-const lodash = require('lodash')
-
 const dummy = (blogs) => {
   return 1
 }
@@ -13,12 +11,15 @@ const totalLikes = (blogs) => {
   return sum
 }
 
-//lisätehtävät:
 // const mostBlogs = (blogs) => {
 //   const objekti = {
 //     author: '',
 //     blogs: ''
 //   }
+
+//   const summattu = _.countBy(_.map(blogs,'author'))
+//   objekti.author = _.max(Object.keys(summattu), o => summattu[o])
+//   objekti.blogs = _.max(Object.values(summattu), o => summattu[o])
 
 //   return objekti
 // }
