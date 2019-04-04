@@ -94,6 +94,8 @@ describe('blogsPost', () => {
 
 })
 
+//token autentikaatio ja poisto ominaisuudet
+// tee testfile loginille?
 
 
 afterAll(() => {
