@@ -5,10 +5,10 @@ const userSchema = mongoose.Schema({
   username: { type: String, require: true, minlength: 3, unique: true },
   name: String,
   passwordHash: { type: String },
-  blogs: [
+  api: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Blog'
+      ref: 'Weather'
     }
   ],
 })
@@ -20,7 +20,6 @@ userSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
-    // suodatetaan passwordHash eli salasanan tiiviste pois näkyviltä
     delete returnedObject.passwordHash
   }
 })

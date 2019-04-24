@@ -5,9 +5,9 @@ const express = require('express')
 const config = require('./utils/config')
 
 const app = express()
-const blogsRouter = require('./controllers/blogs')
-const userRouter = require('./controllers/users')
+// const blogsRouter = require('./controllers/blogs')
 const loginRouter = require('./controllers/login')
+const userRouter = require('./controllers/users')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 
@@ -30,7 +30,7 @@ app.use(middleware.requestLogger)
 app.use(middleware.tokenExtractor)
 
 app.use('/api/login', loginRouter)
-app.use('/api/blogs', blogsRouter)
+// app.use('/api/blogs', blogsRouter)
 app.use('/api/users', userRouter)
 
 app.use(middleware.unknownEndpoint)

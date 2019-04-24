@@ -5,7 +5,10 @@ const bcrypt = require('bcrypt')
 userRouter.get('/', async (request, response, next) => {
 
   try {
-    const result = await User.find({}).populate('blogs',{ title: 1, author: 1, url: 1, likes: 1 })
+    //palauttaa kaikki vitun käyttäjät tähän halutaan vain omat
+    const result = await User.find({})
+    //esimerkki populatesta
+    //.populate('blogs',{ title: 1, author: 1, url: 1, likes: 1 })
     response.status(200).json(result)
   }catch(error){
     next(error)
@@ -33,7 +36,18 @@ userRouter.post('/', async (request, response, next) => {
   }catch(error){
     next(error)
   }
+})
 
+//harkitse jätetäänkö tälläiseksi vai tuleeko käyttäjälle mahdollisuus poistaa oma käyttäjänsä
+userRouter.delete('/:id', async (request, response, next) => {
+  // const idToDelete = request.body.id
+  // CHECHKKAA TOKENI
+  try {
+    await User.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  }catch(error){
+    next(error)
+  }
 })
 
 module.exports = userRouter
