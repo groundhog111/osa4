@@ -5,12 +5,12 @@ const userSchema = mongoose.Schema({
   username: { type: String, require: true, minlength: 3, unique: true },
   name: String,
   passwordHash: { type: String },
-  api: [
-    {
+  api: {
+    weather: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Weather'
     }
-  ],
+  },
 })
 
 userSchema.plugin(uniqueValidator)

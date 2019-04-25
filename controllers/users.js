@@ -1,6 +1,8 @@
 const userRouter = require('express').Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+// const jwt = require('jsonwebtoken')
+
 
 userRouter.get('/', async (request, response, next) => {
 
@@ -18,10 +20,6 @@ userRouter.get('/', async (request, response, next) => {
 userRouter.post('/', async (request, response, next) => {
   const body = request.body
 
-  if( typeof body.password === 'undefined' || body.password.length < 3 ) {
-    return response.status(400).json({ error: "password must be at least 3 charecters long" })
-  }
-
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
@@ -32,7 +30,7 @@ userRouter.post('/', async (request, response, next) => {
   })
   try {
     const result = await user.save()
-    response.status(201).json(result)
+    response.status(200).send(result)
   }catch(error){
     next(error)
   }
@@ -43,7 +41,12 @@ userRouter.delete('/:id', async (request, response, next) => {
   // const idToDelete = request.body.id
   // CHECHKKAA TOKENI
   try {
-    await User.findByIdAndRemove(request.params.id)
+    // const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    // if (!request.token || !decodedToken.id) {
+    //   return response.status(401).json({ error: 'token missing or invalid' })
+    // }
+    console.log('request params.id', request.params.id)
+    await User.findOneAndDelete({ _id: request.params.id })
     response.status(204).end()
   }catch(error){
     next(error)

@@ -8,6 +8,7 @@ const app = express()
 // const blogsRouter = require('./controllers/blogs')
 const loginRouter = require('./controllers/login')
 const userRouter = require('./controllers/users')
+const updateWeatherRouter = require('./controllers/updateApi/updateWeather')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 
@@ -29,9 +30,12 @@ app.use(bodyParser.json())
 app.use(middleware.requestLogger)
 app.use(middleware.tokenExtractor)
 
+//tee oma moduuli autentikaatiolle siten että controllerit vaan checkkaa sieltä mikä keissi
+// NYT KUKA VAIN VOI POISTAA KENET VAIN SEKÄ UPDATET
+
 app.use('/api/login', loginRouter)
-// app.use('/api/blogs', blogsRouter)
 app.use('/api/users', userRouter)
+app.use('/api/update/updateweather', updateWeatherRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
