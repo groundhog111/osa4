@@ -1,17 +1,35 @@
 const userRouter = require('express').Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
-// const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 
 userRouter.get('/', async (request, response, next) => {
+  try {
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    var user = await User.findById(decodedToken.id)
+
+    user = { token: request.token, id: user.id, username: user.username, api: user.api }
+
+
+    response
+      .status(201)
+      .send(user)
+
+  } catch(error) {next(error)}
+})
+
+userRouter.get('/test', async (request, response, next) => {
 
   try {
     //palauttaa kaikki vitun käyttäjät tähän halutaan vain omat
     const result = await User.find({})
-    //esimerkki populatesta
-    //.populate('blogs',{ title: 1, author: 1, url: 1, likes: 1 })
-    response.status(200).json(result)
+    response.status(200).send(result)
   }catch(error){
     next(error)
   }
@@ -45,7 +63,6 @@ userRouter.delete('/:id', async (request, response, next) => {
     // if (!request.token || !decodedToken.id) {
     //   return response.status(401).json({ error: 'token missing or invalid' })
     // }
-    console.log('request params.id', request.params.id)
     await User.findOneAndDelete({ _id: request.params.id })
     response.status(204).end()
   }catch(error){

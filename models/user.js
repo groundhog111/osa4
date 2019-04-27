@@ -7,10 +7,10 @@ const userSchema = mongoose.Schema({
   passwordHash: { type: String },
   api: {
     weather: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Weather'
+      city: { type: String }
     }
-  },
+  }
+
 })
 
 userSchema.plugin(uniqueValidator)

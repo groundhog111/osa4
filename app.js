@@ -9,6 +9,8 @@ const app = express()
 const loginRouter = require('./controllers/login')
 const userRouter = require('./controllers/users')
 const updateWeatherRouter = require('./controllers/updateApi/updateWeather')
+const getApi = require('./controllers/getApi/getApi')
+
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 
@@ -36,6 +38,7 @@ app.use(middleware.tokenExtractor)
 app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
 app.use('/api/update/updateweather', updateWeatherRouter)
+app.use('/api/getApi', getApi)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

@@ -1,6 +1,4 @@
 const updateWeatherRouter = require('express').Router()
-// const User = require('../models/user')
-const Weather = require('../../models/api/weather')
 const User = require('../../models/user')
 const jwt = require('jsonwebtoken')
 
@@ -16,27 +14,9 @@ updateWeatherRouter.post('/', async (request, response, next) => {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
 
-    const user = await User.findOne({ _id: decodedToken.id })
-    console.log('Decoded tokenilla haettu user:', user)
+    const result = await User.findOneAndUpdate({ _id: decodedToken.id }, { api: { weather: { city: city } } } )
 
-    const existingWeather = await Weather.findOne({ user: user._id })
-
-    if (existingWeather) {
-
-      await Weather.findOneAndUpdate({ _id: existingWeather._id },{ "city": city })
-
-    }
-    else {
-
-      const weather = new Weather({
-        city: city,
-        user: user._id
-      })
-      await weather.save()
-
-    }
-
-    response.status(200).end()
+    response.status(200).send(result)
   }
   catch (error) { next(error) }
 })
